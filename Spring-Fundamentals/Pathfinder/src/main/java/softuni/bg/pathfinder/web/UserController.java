@@ -31,11 +31,6 @@ public class UserController {
         return new UserRegisterBindingModel();
     }
 
-    @ModelAttribute("userLoginBindingModel")
-    public UserLoginBindingModel userLoginBindingModel(){
-        return new UserLoginBindingModel();
-    }
-
     @GetMapping("/register")
     public String register(Model model){
         if(!model.containsAttribute("userNameExists")){
@@ -61,12 +56,6 @@ public class UserController {
 
         return "redirect:login";
     }
-
-    @GetMapping("/login")
-    public String login(Model model){
-        return "login";
-    }
-
     @GetMapping("/profile/{id}")
     public String profile(@PathVariable Long id, Model model){
         UserViewModel user = this.modelMapper.map(this.userService.findById(id), UserViewModel.class);

@@ -13,7 +13,6 @@ import softuni.bg.pathfinder.repository.UserRepository;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
 public class PathfinderUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
