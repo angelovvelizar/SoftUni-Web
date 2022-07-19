@@ -7,18 +7,15 @@ import softuni.bg.pathfinder.model.enums.LevelEnum;
 import softuni.bg.pathfinder.model.service.UserServiceModel;
 import softuni.bg.pathfinder.repository.UserRepository;
 import softuni.bg.pathfinder.service.UserService;
-import softuni.bg.pathfinder.util.CurrentUser;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final CurrentUser currentUser;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, CurrentUser currentUser) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.currentUser = currentUser;
     }
 
 
@@ -30,37 +27,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel findUserByUsernameAndPassword(String username, String password) {
-        return this.userRepository.findUserEntityByUsernameAndPassword(username,password)
-                .map(user -> this.modelMapper.map(user, UserServiceModel.class))
-                .orElse(null);
-    }
-
-    @Override
-    public void loginUser(Long id, String username) {
-        this.currentUser.setUsername(username);
-        this.currentUser.setId(id);
-    }
-
-    @Override
-    public void logout() {
-        this.currentUser.setId(null);
-        this.currentUser.setUsername(null);
-    }
-
-    @Override
     public UserServiceModel findById(Long id) {
 
         return this.userRepository.findById(id)
                 .map(user -> this.modelMapper.map(user, UserServiceModel.class))
                 .orElse(null);
     }
-
-    @Override
-    public boolean usernameExists(String username) {
-        return this.userRepository.existsByUsername(username);
-    }
-
 
     public UserEntity findUserEntityById(Long id){
         return this.userRepository.findById(id).orElse(null);

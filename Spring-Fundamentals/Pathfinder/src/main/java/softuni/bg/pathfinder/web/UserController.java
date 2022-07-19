@@ -55,13 +55,7 @@ public class UserController {
             return "redirect:register";
         }
 
-        boolean usernameExists = this.userService.usernameExists(userRegisterBindingModel.getUsername());
-        if(usernameExists){
-            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
-            redirectAttributes.addFlashAttribute("userNameExists", true);
-
-            return "redirect:register";
-        }
+       //TODO: existing user name with custom validator
 
         this.userService.registerUser(this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
 
@@ -70,39 +64,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model){
-        if(!model.containsAttribute("isExists")){
-            model.addAttribute("isExists", true);
-        }
         return "login";
-    }
-
-    @PostMapping("/login")
-    public String loginConfirm(@Valid UserLoginBindingModel userLoginBindingModel,
-                               BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
-
-            return "redirect:login";
-        }
-
-        UserServiceModel user = userService.findUserByUsernameAndPassword(userLoginBindingModel.getUsername(), userLoginBindingModel.getPassword());
-        if(user == null){
-            redirectAttributes.addFlashAttribute("isExists", false);
-            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
-
-            return "redirect:login";
-        }
-
-        this.userService.loginUser(user.getId(), user.getUsername());
-        return "redirect:/";
-    }
-
-    @GetMapping("/logout")
-    public String logout(){
-        this.userService.logout();
-        return "redirect:/";
     }
 
     @GetMapping("/profile/{id}")
