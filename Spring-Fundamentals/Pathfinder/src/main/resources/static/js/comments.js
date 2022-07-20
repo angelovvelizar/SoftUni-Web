@@ -15,14 +15,14 @@ const displayComments = (comments) => {
 function asComment(c){
     let commentHtml = '<div id="commentCtnr-${c.id}">'
 
-    commentHtml += '<h4>${c.user} (${c.created})</h4><br/>'
-    commentHtml += '<p>${c.message}</p>'
+    commentHtml += `<h4>${c.user} (${c.created})</h4><br/>`
+    commentHtml += `<p>${c.message}</p>`
     commentHtml += '</div>'
 
     return commentHtml
 }
 
-fetch("http://localhost:8080/api/${routeId}/comments")
+fetch(`http://localhost:8080/api/${routeId}/comments`)
     .then(response => response.json())
     .then(data => {
         for(let comment of data){
