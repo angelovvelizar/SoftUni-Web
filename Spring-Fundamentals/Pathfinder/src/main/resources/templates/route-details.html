@@ -7,9 +7,10 @@
 <div class="wrapper">
     <header th:replace="fragments/commons :: navigation">
 
-</header>
+    </header>
 
-    <input type="hidden" name="routeId" id="routeId">   
+    <input type="hidden" name="routeId" id="routeId" th:value="${route.id}">
+
     <div th:object="${route}" class="details-main">
         <section class="route-info text-center">
             <h4 th:text="*{name}" id="track-name"></h4>
@@ -20,12 +21,12 @@
                 <p><img class="level-img" src="/images/difficulty-level.png" alt=""></p>
                 <p th:if="*{level.ordinal() >= 1}"><img class="level-img" src="/images/difficulty-level.png" alt=""></p>
                 <p th:if="*{level.ordinal() >=2}"><img class="level-img" src="/images/difficulty-level.png" alt=""></p>
-                
+
             </div>
             <div>
                 <h4>Choose picture</h4>
                 <form action="/" method="POST" enctype="multipart/form-data">
-                    <input  type="hidden" id="id" name="routeId">
+                    <input type="hidden" id="id" name="routeId">
                     <div class="form-group">
                         <label>
                             <input type="text" name="title">
@@ -95,10 +96,9 @@
         </section>
         <p style="visibility: hidden">GPX Download: <a id="gpxDownload"></a></p>
     </div>
-	<!-- Scripts: track and comments 
-    <script th:src="@{/js/track.js}"></script>
+
     <script th:src="@{/js/comments.js}"></script>
-	-->
+
 </div>
 <footer th:replace="fragments/commons :: footer">
 </footer>

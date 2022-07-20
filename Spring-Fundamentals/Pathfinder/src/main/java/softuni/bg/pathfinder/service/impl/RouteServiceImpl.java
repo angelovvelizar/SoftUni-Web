@@ -11,6 +11,7 @@ import softuni.bg.pathfinder.service.CategoryService;
 import softuni.bg.pathfinder.service.RouteService;
 import softuni.bg.pathfinder.service.UserService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
 
+    @Transactional
     @Override
     public List<RouteViewModel> findAllRoutes() {
         return this.routeRepository.findAll()
@@ -43,10 +45,12 @@ public class RouteServiceImpl implements RouteService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public RouteViewModel findRouteById(Long id) {
-        RouteEntity route = this.routeRepository.findById(id).orElse(null);
-        return this.modelMapper.map(route, RouteViewModel.class);
+        return this.routeRepository
+                .findById(id)
+                .map(routeEntity -> this.modelMapper.map(routeEntity, RouteViewModel.class)).orElse(null);
     }
 
     @Override
@@ -60,10 +64,10 @@ public class RouteServiceImpl implements RouteService {
 
         //TODO: set current user to routeAuthor
 
-        Set<CategoryEntity> categories = routeServiceModel.getCategories()
+        List<CategoryEntity> categories = routeServiceModel.getCategories()
                 .stream()
                 .map(this.categoryService::findCategoryByName)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         route.setCategories(categories);
         this.routeRepository.save(route);

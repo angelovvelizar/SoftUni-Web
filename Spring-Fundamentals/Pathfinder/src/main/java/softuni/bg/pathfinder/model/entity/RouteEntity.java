@@ -3,6 +3,7 @@ package softuni.bg.pathfinder.model.entity;
 import softuni.bg.pathfinder.model.enums.LevelEnum;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,17 +28,28 @@ public class RouteEntity extends BaseEntity{
     @Column(name = "video_url")
     private String videoUrl;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<CategoryEntity> categories;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<CategoryEntity> categories;
 
-    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
-    private Set<PictureEntity> pictures;
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
+    private List<PictureEntity> pictures;
 
-    public Set<CategoryEntity> getCategories() {
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
+    private List<CommentEntity> comments;
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
+    public List<CategoryEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<CategoryEntity> categories) {
+    public void setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
     }
 
@@ -89,11 +101,11 @@ public class RouteEntity extends BaseEntity{
         this.videoUrl = videoUrl;
     }
 
-    public Set<PictureEntity> getPictures() {
+    public List<PictureEntity> getPictures() {
         return pictures;
     }
 
-    public void setPictures(Set<PictureEntity> pictures) {
+    public void setPictures(List<PictureEntity> pictures) {
         this.pictures = pictures;
     }
 }
