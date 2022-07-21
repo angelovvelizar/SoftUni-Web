@@ -2,6 +2,7 @@ package softuni.bg.pathfinder.service.impl;
 
 import org.springframework.stereotype.Service;
 import softuni.bg.pathfinder.model.entity.CommentEntity;
+import softuni.bg.pathfinder.model.service.CommentServiceModel;
 import softuni.bg.pathfinder.model.view.CommentViewModel;
 import softuni.bg.pathfinder.repository.CommentRepository;
 import softuni.bg.pathfinder.repository.RouteRepository;
@@ -34,6 +35,12 @@ public class CommentServiceImpl implements CommentService {
         return routeOpt.get().getComments()
                 .stream()
                 .map(this::mapAsComment).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentViewModel createComment(CommentServiceModel commentServiceModel) {
+        //TODO: finish new comment
+        throw new UnsupportedOperationException("TO DO!");
     }
 
 
