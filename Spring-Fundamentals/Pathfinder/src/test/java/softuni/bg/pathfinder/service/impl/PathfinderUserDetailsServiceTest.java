@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import softuni.bg.pathfinder.model.entity.RoleEntity;
 import softuni.bg.pathfinder.model.entity.UserEntity;
@@ -65,16 +64,12 @@ class PathfinderUserDetailsServiceTest {
         var actual = this.serviceToTest.loadUserByUsername(this.testUser.getUsername());
 
         //ASSERT
-        Assertions.assertEquals(actual.getUsername(), this.testUser.getUsername());
-
+        String expectedRoles = "ROLE_ADMIN, ROLE_USER";
         String actualRoles = actual.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
 
-        String expectedRoles = "ROLE_ADMIN, ROLE_USER";
-
+        Assertions.assertEquals(actual.getUsername(), this.testUser.getUsername());
         Assertions.assertEquals(expectedRoles, actualRoles);
-
-
     }
 
 }

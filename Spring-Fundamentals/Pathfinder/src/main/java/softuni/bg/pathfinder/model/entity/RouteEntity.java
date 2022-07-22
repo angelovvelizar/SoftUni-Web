@@ -10,10 +10,11 @@ import java.util.Set;
 @Table(name = "routes")
 public class RouteEntity extends BaseEntity{
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String description;
 
-    @Column(name = "gpx_coordinates", columnDefinition = "LONGTEXT")
+    @Column(name = "gpx_coordinates")
+    @Lob
     private String gpxCoordinates;
 
     @Enumerated(EnumType.STRING)
@@ -34,7 +35,7 @@ public class RouteEntity extends BaseEntity{
     @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
     private List<PictureEntity> pictures;
 
-    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
 
     public List<CommentEntity> getComments() {

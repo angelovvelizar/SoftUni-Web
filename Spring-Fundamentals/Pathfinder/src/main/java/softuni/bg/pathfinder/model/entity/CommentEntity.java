@@ -1,9 +1,6 @@
 package softuni.bg.pathfinder.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,7 +13,8 @@ public class CommentEntity extends BaseEntity{
     @Column
     private LocalDateTime created;
 
-    @Column(name = "text_context", columnDefinition = "TEXT")
+    @Column(name = "text_context")
+    @Lob
     private String textContext;
 
     @ManyToOne

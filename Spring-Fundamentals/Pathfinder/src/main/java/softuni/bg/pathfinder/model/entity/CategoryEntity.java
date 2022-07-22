@@ -11,7 +11,7 @@ public class CategoryEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private CategoryNameEnum name;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String description;
 
     public CategoryNameEnum getName() {

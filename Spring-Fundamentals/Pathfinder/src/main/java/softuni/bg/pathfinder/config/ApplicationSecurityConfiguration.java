@@ -25,7 +25,7 @@ public class ApplicationSecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/users/login", "/users/register").permitAll()
-                .antMatchers("/routes/**", "/api/**").permitAll()
+                .antMatchers("/routes/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin().loginPage("/users/login")
