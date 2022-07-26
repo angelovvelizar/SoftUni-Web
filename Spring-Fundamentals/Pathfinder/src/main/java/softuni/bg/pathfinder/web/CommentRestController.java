@@ -38,6 +38,7 @@ public class CommentRestController {
                                                        @RequestBody @Valid NewCommentBindingModel newCommentBindingModel){
         CommentServiceModel commentServiceModel = this.modelMapper.map(newCommentBindingModel, CommentServiceModel.class);
         commentServiceModel.setRouteId(routeId);
+        commentServiceModel.setCreator(principal.getName());
 
         CommentViewModel commentViewModel = commentService.createComment(commentServiceModel);
 

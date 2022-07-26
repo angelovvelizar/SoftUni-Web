@@ -6,10 +6,12 @@ import softuni.bg.pathfinder.model.service.CommentServiceModel;
 import softuni.bg.pathfinder.model.view.CommentViewModel;
 import softuni.bg.pathfinder.repository.CommentRepository;
 import softuni.bg.pathfinder.repository.RouteRepository;
+import softuni.bg.pathfinder.repository.UserRepository;
 import softuni.bg.pathfinder.service.CommentService;
 import softuni.bg.pathfinder.service.exceptions.ObjectNotFoundException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final RouteRepository routeRepository;
+    private final UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, RouteRepository routeRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, RouteRepository routeRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.routeRepository = routeRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -39,8 +43,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentViewModel createComment(CommentServiceModel commentServiceModel) {
-        //TODO: finish new comment
-        throw new UnsupportedOperationException("TO DO!");
+        var route = this.routeRepository.findById(commentServiceModel.getRouteId()).orElseThrow(() -> new ObjectNotFoundException("Not found!"));
+
+        var author = this.userRepository.findByUsername(commentServiceModel.getCreator()).orElseThrow(() -> new ObjectNotFoundException("Not found!"));
+
+        CommentEntity newComment = new CommentEntity();
+        newComment.setApproved(false);
+        newComment.setTextContext(commentServiceModel.getMessage());
+        newComment.setCreated(LocalDateTime.now());
+        newComment.setRoute(route);
+        newComment.setAuthor(author);
+
+        CommentEntity saveComment = this.commentRepository.save(newComment);
+
+        return mapAsComment(saveComment);
     }
 
 
